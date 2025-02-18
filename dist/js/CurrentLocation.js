@@ -1,9 +1,10 @@
+// 현재 위치 생성자
 export default class CurrentLocation {
     constructor() {
-        this._name = "Current Location";
-        this._lat = null;
-        this._lon = null;
-        this._unit = "imperial";
+        this._name = "Current Location";    // 현재 위치 이름
+        this._lat = null;   // 위도
+        this._lon = null;   // 경도
+        this._unit = "imperial";    // 단위
     }
 
     getName() {
@@ -38,6 +39,7 @@ export default class CurrentLocation {
         this._unit = unit
     }
 
+    // 단위 바꾸기
     toggleUnit() {
         this._unit = this._unit === "imperial" ? "metric" : "imperial";
     }
