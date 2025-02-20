@@ -27,7 +27,7 @@ export default class CurrentLocation {
         return this._lon;
     }
 
-    setLat(lon) {
+    setLon(lon) {
         this._lon = lon;
     }
 
