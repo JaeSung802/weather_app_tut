@@ -23,7 +23,7 @@ const updateWeatherLocationHeader = (message) => {
     h1.textContent = message;
 };
 
-const updateScreenReaderConfirmation = (message) => {
+export const updateScreenReaderConfirmation = (message) => {
     // 어디에 있는지 선택
     document.getElementById("confirmation").textContent = message;
 };

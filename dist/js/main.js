@@ -1,5 +1,9 @@
 import { setLocationObject, getHomeLocation } from "./dataFunctions.js";
-import { addSpinner, displayError } from "./domFunctions.js";
+import { 
+    addSpinner, 
+    displayError, 
+    updateScreenReaderConfirmation 
+} from "./domFunctions.js";
 import CurrentLocation from "./CurrentLocation.js";
 const currentLoc = new CurrentLocation();
 
@@ -12,6 +16,10 @@ const initApp = () => {
     // home
     const homeButton = document.getElementById("home");
     homeButton.addEventListener("click", loadWeather);
+    //save
+    const saveButton = document.getElementById("saveLocation");
+    saveButton.addEventListener("click", saveLocation);
+
     // set up
     // load weather
     loadWeather();
@@ -93,7 +101,30 @@ const displayHomeLocationWeather = (home) => {
         setLocationObject(currentLoc, myCoordsObj);
         updateDataAndDisplay(currentLoc);
     }
-}
+};
+
+// 저장 위치 
+const saveLocation = () => {
+    // 현재 위치 경도, 위도 얻기기
+    if (currentLoc.getLat && currentLoc.getLon()) {
+        const saveIcon = document.querySelector(".fa-save");
+        addSpinner(saveIcon);
+        const location = {
+            name: currentLoc.getName(),
+            lat: currentLoc.getLat(),
+            lon: currentLoc.getLon(),
+            unit: currentLoc.getUnit()
+        };
+        // 로컬스토리지에 저장 -> 위치 객체를 전달
+        localStorage.setItem("defaultWeatherLocation", JSON.stringify(location));
+        // 업데이트 : 화면 판독기 확인
+        updateScreenReaderConfirmation(
+            `Save ${currentLoc.getName()} as home location.`
+        );
+
+    }
+
+};
 
 // 디스플레이에 업데이트를 호출하여 라우터나 컨트롤러와 비슷한 종류
 const updateDataAndDisplay = async (locationObj) => {
