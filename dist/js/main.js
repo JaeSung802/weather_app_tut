@@ -19,7 +19,12 @@ const initApp = () => {
     //save
     const saveButton = document.getElementById("saveLocation");
     saveButton.addEventListener("click", saveLocation);
-
+    // unit
+    const unitButton = document.getElementById("unit");
+    unitButton.addEventListener("click", setUnitPref);
+    //refresh
+    const refreshButton = document.getElementById("refresh");
+    refreshButton.addEventListener("click", refreshWeather);
     // set up
     // load weather
     loadWeather();
@@ -124,6 +129,19 @@ const saveLocation = () => {
 
     }
 
+};
+
+const setUnitPref = () => {
+    const unitIcon = document.querySelector(".fa-chart-bar");
+    addSpinner(unitIcon);
+    currentLoc.toggleUnit();
+    updateDataAndDisplay(currentLoc);
+};
+
+const refreshWeather = () => {
+    const refreshIcon = document.querySelector(".fa-sync-alt");
+    addSpinner(refreshIcon);
+    updateDataAndDisplay(currentLoc);
 };
 
 // 디스플레이에 업데이트를 호출하여 라우터나 컨트롤러와 비슷한 종류
