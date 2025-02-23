@@ -1,6 +1,8 @@
 import { 
     setLocationObject, 
     getHomeLocation, 
+    getWeatherFromCoords, 
+    getCoordsFromApi, 
     cleanText 
 } from "./dataFunctions.js";
 import { 
@@ -32,7 +34,7 @@ const initApp = () => {
     const refreshButton = document.getElementById("refresh");
     refreshButton.addEventListener("click", refreshWeather);
     // 위치 항목
-    const locationEntry = document.querySelector("searchBar__form");
+    const locationEntry = document.getElementById("searchBar__form");
     locationEntry.addEventListener("submit", submitNewLocation);
 
     // set up
@@ -165,22 +167,30 @@ const submitNewLocation = async (event) => {
     addSpinner(locationIcon);
     // 좌표함수
     const coordsData = await getCoordsFromApi(entryText, currentLoc.getUnit());
-    if (coordsData.cod === 200) {
-        // work with api data
-        // success : http 200 : 성공 또는 실제 응답을 나타냄
-        const myCoordsObj = {};
-        setLocationObject(currentLoc, myCoordsObj);
-        updateDataAndDisplay(currentLoc);
+    if (coordsData) {
+        if (coordsData.cod === 200) {
+            // work with api data
+            // success : http 200 : 성공 또는 실제 응답을 나타냄
+            const myCoordsObj = {
+                lat: coordsData.coord.lat,
+                lon: coordsData.coord.lon,
+                name: coordsData.sys.country 
+                    ? `${coordsData.name}, ${coordsData.sys.country}` 
+                    : coordsData.name
+            };
+            setLocationObject(currentLoc, myCoordsObj);
+            updateDataAndDisplay(currentLoc);
+        } else {
+            displayApiError(coordsData);
+        }
     } else {
-        displayApiError(coordsData);
+        displayError("Connection Error", "Connection Error");
     }
 };
 
 // 디스플레이에 업데이트를 호출하여 라우터나 컨트롤러와 비슷한 종류
 const updateDataAndDisplay = async (locationObj) => {
-    console.log(locationObj);
-    
-    // 비동기 함수
-    // const weatherJson = await getWeatherFromCoords(locationObj);
+    const weatherJson = await getWeatherFromCoords(locationObj);
+    console.log(weatherJson);
     // if (weatherJson) updateDisplay(weatherJson, locationObj);
 };
