@@ -1,4 +1,8 @@
-import { setLocationObject, getHomeLocation } from "./dataFunctions.js";
+import { 
+    setLocationObject, 
+    getHomeLocation, 
+    cleanText 
+} from "./dataFunctions.js";
 import { 
     addSpinner, 
     displayError, 
@@ -25,6 +29,9 @@ const initApp = () => {
     //refresh
     const refreshButton = document.getElementById("refresh");
     refreshButton.addEventListener("click", refreshWeather);
+    // 위치 항목
+    const locationEntry = document.querySelector("searchBar__form");
+    locationEntry.addEventListener("submit", submitNewLocation);
     // set up
     // load weather
     loadWeather();
@@ -142,6 +149,26 @@ const refreshWeather = () => {
     const refreshIcon = document.querySelector(".fa-sync-alt");
     addSpinner(refreshIcon);
     updateDataAndDisplay(currentLoc);
+};
+
+const submitNewLocation = async (event) => {
+    event.preventDefault();
+    const text = document.getElementById("searchBar__text").value;
+    const entryText = cleanText(text);
+    if (!entryText.length) return;
+    const locationIcon = document.querySelector(".fa-search");
+    addSpinner(locationIcon);
+    // 좌표함수
+    const coordsData = await getCoordsFromApi(entryText, currentLoc.getUnit());
+    if (coordsData.cod === 200) {
+        // work with api data
+        // success : http 200 : 성공 또는 실제 응답을 나타냄
+        const myCoordsObj = {};
+        setLocationObject(currentLoc, myCoordsObj);
+        updateDataAndDisplay(currentLoc);
+    } else {
+        displayApiError(coordsData);
+    }
 };
 
 // 디스플레이에 업데이트를 호출하여 라우터나 컨트롤러와 비슷한 종류
