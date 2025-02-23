@@ -4,8 +4,10 @@ import {
     cleanText 
 } from "./dataFunctions.js";
 import { 
+    setPlaceholderText, 
     addSpinner, 
     displayError, 
+    displayApiError, 
     updateScreenReaderConfirmation 
 } from "./domFunctions.js";
 import CurrentLocation from "./CurrentLocation.js";
@@ -32,7 +34,10 @@ const initApp = () => {
     // 위치 항목
     const locationEntry = document.querySelector("searchBar__form");
     locationEntry.addEventListener("submit", submitNewLocation);
+
     // set up
+    setPlaceholderText();
+
     // load weather
     loadWeather();
 };

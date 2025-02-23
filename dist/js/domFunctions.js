@@ -1,3 +1,11 @@
+export const setPlaceholderText = () => {
+    const input = document.getElementById("searchBar__text");
+    // 화면 400
+    window.innerWidth < 400 
+        ? (input.placeholder = "City, State, Country") 
+        : (input.placeholder = "City, State, Country, or Zip Code");
+};
+
 export const addSpinner = (element) => {
     // 애니메이트 버튼
     animateButton(element);
