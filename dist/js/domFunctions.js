@@ -49,3 +49,26 @@ export const updateScreenReaderConfirmation = (message) => {
     // 어디에 있는지 선택
     document.getElementById("confirmation").textContent = message;
 };
+
+export const updateDisplay = (weatherJson, locationObj) => {
+    fadeDisplay();
+    clearDisplay();
+
+    fadeDisplay();
+};
+
+const fadeDisplay = () => {
+    const cc = document.getElementById("currentForecast");
+    cc.classList.toggle("zero-vis");
+    cc.classList.toggle("fade-in");
+    const sixDay = document.getElementById("dailyForecast");
+    sixDay.classList.toggle("zero-vis");
+    sixDay.classList.toggle("fade-in");
+};
+
+const clearDisplay = () => {
+    const currentConditions = document.getElementById("currentForecast__conditions");
+    deleteContents(currentConditions);
+    const sixDayForecast = document.getElementById("dailyForecast__contents");
+    deleteContents(sixDayForecast);
+};

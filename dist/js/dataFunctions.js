@@ -1,4 +1,4 @@
-const WEATHER_API_KEY = '4b53920dc4306783c08d12180c3f25c7';
+const WEATHER_API_KEY = '03f71ee925e984415939f2b7b6a983b3';
 
 // 위치 객체 설정
 export const setLocationObject = (locationObj, coordsObj) => { // 위치 객체, 브라우저의 지리적 위치
@@ -22,7 +22,7 @@ export const getWeatherFromCoords = async (locationObj) => {
     const lat = locationObj.getLat();
     const lon = locationObj.getLon();
     const units = locationObj.getUnit();
-    const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&units=${units}&appid=${WEATHER_API_KEY}`;
+    const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&units=${units}&appid=${WEATHER_API_KEY}`;
     try {
         const weatherStream = await fetch(url);
         const weatherJson = await weatherStream.json();
